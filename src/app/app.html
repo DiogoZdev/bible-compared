@@ -1,3 +1,11 @@
-<router-outlet />
+<div class="flex flex-col min-h-screen">
 
-<Footer></Footer>
+  <Header [showSelector]="true" class="shrink-0"></Header>
+
+  <main class="flex-1">
+    <router-outlet />
+  </main>
+
+  <Footer class="shrink-0"></Footer>
+
+</div>

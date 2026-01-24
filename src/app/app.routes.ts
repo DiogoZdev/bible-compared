@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { Version } from '../components/version/version';
+import { ChapterView } from '../components/chapter-view/chapter-view';
 import { Home } from '../pages/home/home';
 import { About } from '../pages/about/about';
 

@@ -1,70 +1,11 @@
 export type BOOK_OPT =
-"GEN" |
-"EXO" |
-"LEV" |
-"NUM" |
-"DEU" |
-"JOS" |
-"JDG" |
-"RUT" |
-"1SA" |
-"2SA" |
-"1KI" |
-"2KI" |
-"1CH" |
-"2CH" |
-"EZR" |
-"NEH" |
-"EST" |
-"JOB" |
-"PSA" |
-"PRO" |
-"ECC" |
-"SNG" |
-"ISA" |
-"JER" |
-"LAM" |
-"EZK" |
-"DAN" |
-"HOS" |
-"JOL" |
-"AMO" |
-"OBA" |
-"JON" |
-"MIC" |
-"NAM" |
-"HAB" |
-"ZEP" |
-"HAG" |
-"ZEC" |
-"MAL" |
-"MAT" |
-"MRK" |
-"LUK" |
-"JHN" |
-"ACT" |
-"ROM" |
-"1CO" |
-"2CO" |
-"GAL" |
-"EPH" |
-"PHP" |
-"COL" |
-"1TH" |
-"2TH" |
-"1TI" |
-"2TI" |
-"TIT" |
-"PHM" |
-"HEB" |
-"JAS" |
-"1PE" |
-"2PE" |
-"1JN" |
-"2JN" |
-"3JN" |
-"JUD" |
-"REV";
+// OLD TESTAMENT
+"GEN" | "EXO" | "LEV" | "NUM" | "DEU" | "JOS" | "JDG" | "RUT" | "1SA" | "2SA" | "1KI" | "2KI" | "1CH" | "2CH" | "EZR" |
+"NEH" | "EST" | "JOB" | "PSA" | "PRO" | "ECC" | "SNG" | "ISA" | "JER" | "LAM" | "EZK" | "DAN" | "HOS" | "JOL" | "AMO" |
+"OBA" | "JON" | "MIC" | "NAM" | "HAB" | "ZEP" | "HAG" | "ZEC" | "MAL" |
+// NEW TESTAMENT
+"MAT" | "MRK" | "LUK" | "JHN" | "ACT" | "ROM" | "1CO" | "2CO" | "GAL" | "EPH" | "PHP" | "COL" | "1TH" | "2TH" | "1TI" |
+"2TI" | "TIT" | "PHM" | "HEB" | "JAS" | "1PE" | "2PE" | "1JN" | "2JN" | "3JN" | "JUD" | "REV";
 
 
 export interface IBook {
@@ -139,5 +80,5 @@ export const BOOKS: Array<IBook> = [
   { acr: "2JN", name: "2 João", chapters: 1 },
   { acr: "3JN", name: "3 João", chapters: 1 },
   { acr: "JUD", name: "Judas", chapters: 1 },
-  { acr: "REV", name: "Apocalipse", chapters: 22 },
+  { acr: "REV", name: "Revelações", chapters: 22 },
 ];

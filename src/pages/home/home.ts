@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
-import { Header } from '../../components/header/header';
-import { Version } from '../../components/version/version';
+import { ChapterView } from '../../components/chapter-view/chapter-view';
 
 @Component({
-  imports: [Header, Version],
+  imports: [ChapterView],
   selector: 'Home',
   templateUrl: './home.html',
 })
 export class Home {
-
+  showTips = true;
 }

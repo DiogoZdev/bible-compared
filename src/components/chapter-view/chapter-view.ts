@@ -1,0 +1,66 @@
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { BibleService } from '../../services/bible.service';
+import { BibleSyncService } from '../../services/sync-view.service';
+
+@Component({
+  selector: 'ChapterView',
+  templateUrl: './chapter-view.html',
+})
+export class ChapterView implements OnInit {
+  constructor(
+    private readonly service: BibleService,
+    private syncService: BibleSyncService,
+    private readonly cdr: ChangeDetectorRef,
+  ) {}
+
+  @Input() side!: 'L' | 'R';
+
+  versionTitle="Aguardando seleção de livro"
+  languageCode="EX"
+  verses = [{
+    number: 0,
+    text: "No princípio ..."
+  }]
+
+  ngOnInit() {
+    this.service.getUrls.subscribe(e => {
+      let url = '';
+      if (this.side === 'L') url = e[0];
+      if (this.side === 'R') url = e[1];
+
+      this.loadContent(url);
+    })
+
+    this.syncService.getScrollRequest.subscribe(verseNumber => {
+      this.scrollToVerse(verseNumber);
+    });
+  }
+
+  onVerseClick(verseNumber: number) {
+    // Quando clica, avisa o serviço para todo mundo centralizar
+    this.syncService.requestScroll(verseNumber);
+  }
+
+  private scrollToVerse(verseNumber: number) {
+    // Procura o elemento pelo ID ou seletor dentro desta coluna
+    const element = document.getElementById(`v-${this.languageCode}-${verseNumber}`);
+    if (element) {
+      element.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center', // <--- Aqui está a mágica da centralização
+        inline: 'nearest'
+      });
+    }
+  }
+
+
+  async loadContent(url: string) {
+    const res = await this.service.fetchChapter(url);
+
+    this.versionTitle = res.versionTitle || 'Erro ao carregar';
+    this.languageCode = res.languageCode || 'ERR';
+    this.verses = res.verses || [];
+
+    this.cdr.detectChanges();
+  }
+}
