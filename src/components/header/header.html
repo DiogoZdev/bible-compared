@@ -1,0 +1,68 @@
+<header class="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex flex-col md:flex-row items-center justify-between py-4 gap-4">
+
+      <div class="flex items-center gap-2">
+        <div class="bg-indigo-600 p-2 rounded-lg">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+          </svg>
+        </div>
+        <h1 class="text-xl font-bold text-gray-900 tracking-tight">
+          Bíblia<span class="text-indigo-600">Comparativa</span>
+        </h1>
+      </div>
+
+      @if (showSelector) {
+        <div class="flex flex-wrap items-center justify-center gap-2 bg-gray-50 p-2 rounded-xl border border-gray-100 w-full md:w-auto">
+
+          <div class="flex items-center gap-1 mr-2">
+            <select
+              #bookSelect
+              class="bg-transparent font-medium text-gray-700 text-sm focus:outline-none cursor-pointer hover:text-indigo-600 transition-colors"
+              (change)="setBook(bookSelect.value)"
+            >
+              @for (book of books; track book.acr) {
+                <option [value]="book.acr">{{book.name}}</option>
+              }
+            </select>
+            <select
+              #chapterSelect
+              class="w-12 bg-transparent font-medium text-gray-700 text-sm focus:outline-none cursor-pointer hover:text-indigo-600 transition-colors text-center">
+              @for (c of chapters; track c) {
+                <option [value]="c">{{c}}</option>
+              }
+            </select>
+          </div>
+
+          <div class="hidden sm:block h-6 w-px bg-gray-300 mx-2"></div>
+
+          <div class="flex items-center gap-2">
+            <select class="bg-white border border-gray-300 text-gray-600 text-xs rounded-lg px-2 py-1 focus:ring-1 focus:ring-indigo-500">
+              <option>Almeida PT-BR</option>
+              <option>NVI</option>
+            </select>
+
+            <span class="text-gray-400 text-[10px] font-bold uppercase">vs</span>
+
+            <select class="bg-white border border-gray-300 text-gray-600 text-xs rounded-lg px-2 py-1 focus:ring-1 focus:ring-indigo-500">
+              <option>Vulgata (Latin)</option>
+              <option>KJV (English)</option>
+            </select>
+          </div>
+
+        </div>
+
+        <div class="flex items-center gap-3">
+          <button class="text-gray-500 hover:text-indigo-600 transition-colors p-1" title="Pesquisar">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+            </svg>
+          </button>
+        </div>
+      }
+
+    </div>
+  </div>
+</header>
+
