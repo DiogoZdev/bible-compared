@@ -1,9 +1,10 @@
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { BibleService } from '../../services/bible.service';
 import { BibleSyncService } from '../../services/sync-view.service';
 
 @Component({
   selector: 'ChapterView',
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './chapter-view.html',
 })
 export class ChapterView implements OnInit {
@@ -37,17 +38,15 @@ export class ChapterView implements OnInit {
   }
 
   onVerseClick(verseNumber: number) {
-    // Quando clica, avisa o serviço para todo mundo centralizar
     this.syncService.requestScroll(verseNumber);
   }
 
   private scrollToVerse(verseNumber: number) {
-    // Procura o elemento pelo ID ou seletor dentro desta coluna
     const element = document.getElementById(`v-${this.languageCode}-${verseNumber}`);
     if (element) {
       element.scrollIntoView({
         behavior: 'smooth',
-        block: 'center', // <--- Aqui está a mágica da centralização
+        block: 'center',
         inline: 'nearest'
       });
     }

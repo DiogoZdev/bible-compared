@@ -13,7 +13,7 @@ Uma ferramenta de estudo bíblico moderna, desenvolvida com **Angular** e **Tail
 
 ## 🛠️ Tecnologias Utilizadas
 
-* **Framework:** [Angular](https://angular.io/) (v17+)
+* **Framework:** [Angular](https://angular.io/) (v22)
 * **Estilização:** [Tailwind CSS](https://tailwindcss.com/)
 * **API:** Integração com APIs de textos bíblicos [Hello AO](https://bible.helloao.org/docs/)
 
@@ -22,7 +22,7 @@ Uma ferramenta de estudo bíblico moderna, desenvolvida com **Angular** e **Tail
 
 1.  **Clone o repositório:**
     ```bash
-    git clone [https://github.com/seu-usuario/biblia-comparativa.git](https://github.com/seu-usuario/biblia-comparativa.git)
+    git clone [https://github.com/diogozdev/biblia-comparativa.git](https://github.com/diogozdev/biblia-comparativa.git)
     ```
 2.  **Instale as dependências:**
     ```bash

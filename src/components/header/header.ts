@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ITranslation } from '../../interfaces/translation'
 import { BibleService } from '../../services/bible.service';
 import { BOOK_OPT, BOOKS } from '../../constants/books'
@@ -6,6 +6,7 @@ import { BOOK_OPT, BOOKS } from '../../constants/books'
 @Component({
   selector: 'Header',
   templateUrl: './header.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   host: { 'class': 'block sticky top-0 z-50' },
 })
 export class Header implements OnInit {
