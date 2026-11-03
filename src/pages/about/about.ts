@@ -1,4 +1,5 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
+import { LanguageService } from '../../services/language.service';
 
 @Component({
   selector: 'About',
@@ -6,5 +7,5 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
   templateUrl: './about.html',
 })
 export class About {
-
+  protected readonly i18n = inject(LanguageService);
 }

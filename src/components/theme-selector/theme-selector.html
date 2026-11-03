@@ -1,7 +1,7 @@
 <div
-  class="inline-flex items-center gap-0.5 rounded-lg border border-line bg-surface-muted p-0.5"
+  class="flex w-full items-center gap-0.5 rounded-lg border border-line bg-surface-muted p-0.5"
   role="group"
-  aria-label="Selecionar tema"
+  [attr.aria-label]="i18n.t('theme.select')"
 >
   @for (option of options; track option.value) {
     <button
@@ -9,8 +9,8 @@
       (click)="setTheme(option.value)"
       [class]="buttonClass(option.value)"
       [attr.aria-pressed]="themeService.theme() === option.value"
-      [attr.aria-label]="option.label"
-      [title]="option.label"
+      [attr.aria-label]="i18n.t(option.labelKey)"
+      [title]="i18n.t(option.labelKey)"
     >
       @switch (option.value) {
         @case ('light') {

@@ -1,52 +1,86 @@
 @if (showTips) {
-<div class="max-w-300 mx-auto px-4 mt-6 bg-brand-soft border border-brand/20 rounded-2xl p-6 shadow-sm">
-  <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+<div class="max-w-300 mx-auto px-3 sm:px-4 mt-4 sm:mt-6 bg-brand-soft border border-brand/20 rounded-2xl p-4 sm:p-6 shadow-sm">
+  <div class="flex flex-col md:flex-row items-center justify-between gap-4 sm:gap-6">
 
-      <div class="space-y-2">
+      <div class="space-y-2 w-full">
         <h3 class="text-brand-strong font-bold text-lg flex items-center gap-2">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
           </svg>
-          Dicas
+          {{ i18n.t('home.tips.title') }}
         </h3>
         <ul class="ml-4 text-ink-soft text-sm max-w-2xl leading-relaxed list-disc">
           <li>
-            <p>Selecione o livro e as versões acima e clique na lupa para iniciar sua comparação.</p>
+            <p>{{ i18n.t('home.tips.selectors') }}</p>
           </li>
           <li>
-            <p><strong>clique em qualquer versículo</strong> para centralizá-lo em ambas as colunas.
+            <p><strong>{{ i18n.t('home.tips.clickVerseStrong') }}</strong>{{ i18n.t('home.tips.clickVerseRest') }}</p>
+          </li>
+          <li class="sm:hidden">
+            <p>{{ i18n.t('home.tips.mobile') }}</p>
           </li>
         </ul>
       </div>
 
-      <div class="flex gap-4 shrink-0">
+      <div class="hidden sm:flex gap-4 shrink-0">
       <div class="flex flex-col items-center">
         <span class="flex h-8 w-8 items-center justify-center rounded-full bg-brand text-brand-ink text-xs font-bold">1</span>
-        <span class="text-[10px] mt-1 text-brand-strong font-medium uppercase tracking-tighter">Escolha</span>
+        <span class="text-[10px] mt-1 text-brand-strong font-medium uppercase tracking-tighter">{{ i18n.t('home.steps.choose') }}</span>
       </div>
       <div class="h-px w-8 bg-brand/30 self-center mb-4"></div>
       <div class="flex flex-col items-center">
         <span class="flex h-8 w-8 items-center justify-center rounded-full bg-brand text-brand-ink text-xs font-bold">2</span>
-        <span class="text-[10px] mt-1 text-brand-strong font-medium uppercase tracking-tighter">Compare</span>
+        <span class="text-[10px] mt-1 text-brand-strong font-medium uppercase tracking-tighter">{{ i18n.t('home.steps.compare') }}</span>
       </div>
       <div class="h-px w-8 bg-brand/30 self-center mb-4"></div>
       <div class="flex flex-col items-center">
         <span class="flex h-8 w-8 items-center justify-center rounded-full bg-brand text-brand-ink text-xs font-bold">3</span>
-        <span class="text-[10px] mt-1 text-brand-strong font-medium uppercase tracking-tighter">Foque</span>
+        <span class="text-[10px] mt-1 text-brand-strong font-medium uppercase tracking-tighter">{{ i18n.t('home.steps.focus') }}</span>
       </div>
     </div>
 
   </div>
   <button
     (click)="showTips = false"
-    class="mt-6 w-full md:w-auto px-6 py-2.5 text-sm font-bold text-brand-ink bg-brand hover:bg-brand-strong border border-brand rounded-xl transition-all duration-200 active:scale-95 cursor-pointer shadow-sm"
+    class="mt-4 sm:mt-6 w-full md:w-auto px-6 py-2.5 text-sm font-bold text-brand-ink bg-brand hover:bg-brand-strong border border-brand rounded-xl transition-all duration-200 active:scale-95 cursor-pointer shadow-sm"
   >
-    Entendi
+    {{ i18n.t('home.tips.dismiss') }}
   </button>
 </div>
 }
 
-<div class="grid grid-cols-2 gap-4 py-4 mx-auto max-w-300">
-  <ChapterView side="L" />
-  <ChapterView side="R" />
+<div class="md:hidden sticky top-0 z-30 bg-paper/95 backdrop-blur border-b border-line">
+  <div class="max-w-300 mx-auto px-3 sm:px-4 py-2">
+    <div class="grid grid-cols-2 gap-1 rounded-xl border border-line bg-surface-muted p-1" role="tablist" aria-label="Traduções">
+      <button
+        type="button"
+        role="tab"
+        (click)="activeSide = 'L'"
+        [class]="tabClass('L')"
+        [attr.aria-selected]="activeSide === 'L'"
+      >
+        <span class="text-[9px] font-black uppercase tracking-widest opacity-70">A</span>
+        <span class="truncate">{{ leftTabLabel }}</span>
+      </button>
+      <button
+        type="button"
+        role="tab"
+        (click)="activeSide = 'R'"
+        [class]="tabClass('R')"
+        [attr.aria-selected]="activeSide === 'R'"
+      >
+        <span class="text-[9px] font-black uppercase tracking-widest opacity-70">B</span>
+        <span class="truncate">{{ rightTabLabel }}</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 py-3 md:py-4 mx-auto max-w-300 px-3 sm:px-4">
+  <div class="min-w-0 md:block" [class.hidden]="activeSide !== 'L'">
+    <ChapterView side="L" (versionTitleChange)="leftTitle = $event" />
+  </div>
+  <div class="min-w-0 md:block" [class.hidden]="activeSide !== 'R'">
+    <ChapterView side="R" (versionTitleChange)="rightTitle = $event" />
+  </div>
 </div>

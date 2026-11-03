@@ -1,6 +1,6 @@
-<header class="sticky top-0 bg-surface border-b border-line z-50 shadow-sm">
+<header class="bg-surface border-b border-line shadow-sm">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex flex-col md:flex-row items-center justify-between py-3 md:py-4 gap-4">
+    <div class="flex flex-wrap items-center justify-between py-3 gap-3">
 
       <div class="flex items-center gap-2 shrink-0">
         <div class="bg-brand p-1.5 rounded-lg shadow-sm shadow-brand/25">
@@ -9,21 +9,82 @@
           </svg>
         </div>
         <h1 class="text-lg font-extrabold text-ink tracking-tight leading-none">
-          Bíblia<span class="text-brand">Comparativa</span>
+          {{ i18n.t('brand.primary') }} <span class="text-brand">{{ i18n.t('brand.secondary') }}</span>
         </h1>
       </div>
 
-      @if (showSelector) {
-        <div class="flex flex-col sm:flex-row items-center gap-3 w-full md:w-auto">
+      <div class="relative ml-auto md:order-last md:ml-0">
+        <button
+          type="button"
+          (click)="toggleMenu($event)"
+          class="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-line bg-surface-muted text-ink-soft hover:text-brand hover:bg-brand-soft transition-colors cursor-pointer"
+          [attr.aria-expanded]="menuOpen"
+          aria-haspopup="true"
+          aria-controls="header-menu"
+          [attr.aria-label]="i18n.t(menuOpen ? 'menu.close' : 'menu.open')"
+        >
+          @if (menuOpen) {
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          } @else {
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+          }
+        </button>
 
-          <div class="flex items-center bg-surface-muted p-1.5 rounded-xl border border-line w-full sm:w-auto justify-center">
+        @if (menuOpen) {
+          <div
+            id="header-menu"
+            (click)="$event.stopPropagation()"
+            class="absolute right-0 top-full mt-2 w-56 rounded-xl border border-line bg-surface shadow-lg p-3 z-50"
+          >
+            <div class="px-2 pb-1 text-[10px] font-bold uppercase tracking-widest text-ink-muted">{{ i18n.t('menu.language') }}</div>
+            <div class="px-1 pb-2">
+              <LanguageSelector></LanguageSelector>
+            </div>
+
+            <div class="h-px bg-line my-1"></div>
+
+            <div class="px-2 pb-1 text-[10px] font-bold uppercase tracking-widest text-ink-muted">{{ i18n.t('menu.theme') }}</div>
+            <div class="px-1 pb-2">
+              <ThemeSelector></ThemeSelector>
+            </div>
+
+            <div class="h-px bg-line my-2"></div>
+
+            <nav class="flex flex-col">
+              <a
+                href="/"
+                (click)="closeMenu()"
+                class="rounded-lg px-2 py-2 text-sm text-ink-soft hover:text-brand hover:bg-brand-soft transition-colors"
+              >
+                {{ i18n.t('nav.home') }}
+              </a>
+              <a
+                href="/about"
+                (click)="closeMenu()"
+                class="rounded-lg px-2 py-2 text-sm text-ink-soft hover:text-brand hover:bg-brand-soft transition-colors"
+              >
+                {{ i18n.t('nav.about') }}
+              </a>
+            </nav>
+          </div>
+        }
+      </div>
+
+      @if (showSelector) {
+        <div class="order-last md:order-none flex flex-col sm:flex-row items-center gap-3 w-full md:w-auto">
+
+          <div class="flex items-center h-10 bg-surface-muted p-0.5 rounded-xl border border-line w-full sm:w-auto justify-center">
             <select
               #bookSelect
-              class="bg-transparent font-bold text-ink text-sm focus:outline-none cursor-pointer hover:text-brand transition-colors px-2"
+              class="h-9 bg-transparent font-bold text-ink text-xs focus:outline-none cursor-pointer hover:text-brand transition-colors px-2"
               (change)="setBook(bookSelect.value)"
             >
               @for (book of books; track book.acr) {
-                <option [value]="book.acr">{{book.name}}</option>
+                <option [value]="book.acr">{{ bookName(book) }}</option>
               }
             </select>
 
@@ -32,73 +93,44 @@
             <select
               #chapterSelect
               (change)="setChapter(chapterSelect.value)"
-              class="bg-transparent font-bold text-brand text-sm focus:outline-none cursor-pointer text-center px-2 min-w-[3rem]">
+              class="h-9 bg-transparent font-bold text-brand text-xs focus:outline-none cursor-pointer text-center px-2 min-w-[3rem]">
               @for (c of chapters; track c) {
                 <option [value]="c">{{c}}</option>
               }
             </select>
           </div>
 
-          <div class="flex items-center gap-2 bg-surface sm:bg-transparent w-full sm:w-auto justify-center">
-            <div class="flex items-center gap-1.5 min-w-0">
-
-              <select
-                #versionLeft
-                (change)="setVersionLeft(versionLeft.value)"
-                class="max-w-30 md:max-w-37.5 bg-surface-muted border border-line text-ink-soft text-[11px] font-medium rounded-lg px-2 py-1.5 focus:ring-2 focus:ring-brand truncate appearance-none"
-              >
-                @if (versions.length === 0) {
-                  <option>Carregando versões...</option>
-                }
-                @for (version of versions; track version.id) {
-                  <option [value]="version.id" [selected]="version.id === selectedVersionLeft"><strong>{{version.languageName}}</strong> - {{version.name}}</option>
-                }
-              </select>
-
-              <span class="text-ink-muted text-[9px] font-black uppercase tracking-tighter shrink-0">VS</span>
-
-              <select
-                #versionRight
-                (change)="setVersionRight(versionRight.value)"
-                class="max-w-30 md:max-w-37.5 bg-surface-muted border border-line text-ink-soft text-[11px] font-medium rounded-lg px-2 py-1.5 focus:ring-2 focus:ring-brand truncate appearance-none"
-              >
-                @if (versions.length === 0) {
-                  <option>Carregando versões...</option>
-                }
-                @for (version of versions; track version.id) {
-                  <option [value]="version.id" [selected]="version.id === selectedVersionRight"><strong>{{version.languageName}}</strong> - {{version.name}}</option>
-                }
-              </select>
-            </div>
-
-            <button
-              (click)="loadDiff()"
-              class="ml-1 p-2 text-ink-muted hover:text-brand hover:bg-brand-soft rounded-full transition-all shrink-0 cursor-pointer"
-              aria-label="Comparar versões"
+          <div class="flex items-center justify-center sm:justify-start gap-1.5 w-full sm:w-auto">
+            <select
+              #versionLeft
+              (change)="setVersionLeft(versionLeft.value)"
+              class="h-10 w-32 min-w-0 bg-surface-muted border border-line text-ink-soft text-xs font-medium rounded-lg px-2.5 focus:ring-2 focus:ring-brand truncate appearance-none cursor-pointer"
             >
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-              </svg>
-            </button>
+              @if (versions.length === 0) {
+                <option>{{ i18n.t('header.loadingVersions') }}</option>
+              }
+              @for (version of versions; track version.id) {
+                <option [value]="version.id" [selected]="version.id === selectedVersionLeft"><strong>{{version.languageName}}</strong> - {{version.name}}</option>
+              }
+            </select>
+
+            <span class="text-ink-muted text-[9px] font-black uppercase tracking-tighter shrink-0">VS</span>
+
+            <select
+              #versionRight
+              (change)="setVersionRight(versionRight.value)"
+              class="h-10 w-32 min-w-0 bg-surface-muted border border-line text-ink-soft text-xs font-medium rounded-lg px-2.5 focus:ring-2 focus:ring-brand truncate appearance-none cursor-pointer"
+            >
+              @if (versions.length === 0) {
+                <option>{{ i18n.t('header.loadingVersions') }}</option>
+              }
+              @for (version of versions; track version.id) {
+                <option [value]="version.id" [selected]="version.id === selectedVersionRight"><strong>{{version.languageName}}</strong> - {{version.name}}</option>
+              }
+            </select>
           </div>
         </div>
       }
-
-      <div class="flex items-center gap-3">
-        <ThemeSelector></ThemeSelector>
-
-        <div class="h-4 w-px bg-line"></div>
-
-        <div class="flex gap-4">
-          <a href="/" class="text-ink-soft hover:text-brand text-xs transition-colors">
-            Início
-          </a>
-          <div class="h-4 w-px bg-line"></div>
-          <a href="/about" class="text-ink-soft hover:text-brand text-xs transition-colors">
-            Sobre o Projeto
-          </a>
-        </div>
-      </div>
 
     </div>
   </div>

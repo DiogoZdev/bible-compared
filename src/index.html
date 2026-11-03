@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>BibleCompared</title>
+  <title>Bíblia Comparativa</title>
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#f5edd8">
@@ -10,13 +10,19 @@
   <script>
     (function () {
       try {
-        var stored = localStorage.getItem('bible-compared-theme');
+        var storedTheme = localStorage.getItem('bible-compared-theme');
         var systemDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-        var dark = stored === 'dark' || ((stored === 'system' || !stored) && systemDark);
+        var dark = storedTheme === 'dark' || ((storedTheme === 'system' || !storedTheme) && systemDark);
         if (dark) document.documentElement.classList.add('dark');
         document.documentElement.style.colorScheme = dark ? 'dark' : 'light';
+
+        var storedLanguage = localStorage.getItem('bible-compared-language');
+        var language = storedLanguage === 'pt' || storedLanguage === 'en'
+          ? storedLanguage
+          : (navigator.language && navigator.language.toLowerCase().indexOf('pt') === 0 ? 'pt' : 'en');
+        document.documentElement.lang = language === 'pt' ? 'pt-BR' : 'en';
       } catch (error) {
-        // Ignore storage/matchMedia failures and fall back to the light theme.
+        // Ignore storage/matchMedia failures and fall back to the defaults.
       }
     })();
   </script>

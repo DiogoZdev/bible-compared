@@ -1,13 +1,26 @@
-import { ChangeDetectorRef, Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  inject,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { BibleService } from '../../services/bible.service';
 import { BibleSyncService } from '../../services/sync-view.service';
+import { LanguageService } from '../../services/language.service';
 
 @Component({
   selector: 'ChapterView',
   changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './chapter-view.html',
+  host: { class: 'block' },
 })
 export class ChapterView implements OnInit {
+  protected readonly i18n = inject(LanguageService);
+
   constructor(
     private readonly service: BibleService,
     private syncService: BibleSyncService,
@@ -16,12 +29,12 @@ export class ChapterView implements OnInit {
 
   @Input() side!: 'L' | 'R';
 
-  versionTitle="Aguardando seleção de livro"
-  languageCode="EX"
-  verses = [{
-    number: 0,
-    text: "No princípio ..."
-  }]
+  @Output() versionTitleChange = new EventEmitter<string>();
+
+  versionTitle = '';
+  loadFailed = false;
+  languageCode = 'EX';
+  verses: Array<{ number: number; text: string }> = [];
 
   private requestId = 0;
 
@@ -66,17 +79,20 @@ export class ChapterView implements OnInit {
       // Ignore responses that arrived after a newer chapter request.
       if (requestId !== this.requestId) return;
 
-      this.versionTitle = res.versionTitle || 'Erro ao carregar';
+      this.versionTitle = res.versionTitle || '';
+      this.loadFailed = false;
       this.languageCode = res.languageCode || 'ERR';
       this.verses = res.verses || [];
     } catch {
       if (requestId !== this.requestId) return;
 
-      this.versionTitle = 'Erro ao carregar';
+      this.versionTitle = '';
+      this.loadFailed = true;
       this.languageCode = 'ERR';
       this.verses = [];
     }
 
+    this.versionTitleChange.emit(this.versionTitle);
     this.cdr.detectChanges();
   }
 }

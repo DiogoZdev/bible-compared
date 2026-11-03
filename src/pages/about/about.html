@@ -2,10 +2,10 @@
   <div class="max-w-5xl mx-auto">
 
     <div class="text-center mb-16">
-      <h2 class="text-base font-semibold text-brand tracking-wide uppercase">Sobre o Projeto</h2>
-      <p class="mt-2 text-3xl font-extrabold text-ink sm:text-4xl">Bíblia Comparativa</p>
+      <h2 class="text-base font-semibold text-brand tracking-wide uppercase">{{ i18n.t('about.eyebrow') }}</h2>
+      <p class="mt-2 text-3xl font-extrabold text-ink sm:text-4xl">{{ i18n.t('brand.full') }}</p>
       <div class="mt-4 max-w-2xl mx-auto text-xl text-ink-soft">
-        Uma ferramenta desenvolvida para facilitar o estudo exegético e a análise textual das Escrituras.
+        {{ i18n.t('about.subtitle') }}
       </div>
     </div>
 
@@ -18,23 +18,23 @@
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
             </svg>
           </div>
-          <h3 class="text-xl font-bold text-ink">A Ferramenta</h3>
+          <h3 class="text-xl font-bold text-ink">{{ i18n.t('about.tool.title') }}</h3>
         </div>
         <p class="text-ink-soft leading-relaxed mb-4">
-          A Bíblia Comparativa nasceu da necessidade de visualizar múltiplas traduções simultaneamente sem distrações. O foco aqui é o <strong>texto</strong>.
+          {{ i18n.t('about.tool.paragraphBefore') }}<strong>{{ i18n.t('about.tool.paragraphStrong') }}</strong>{{ i18n.t('about.tool.paragraphAfter') }}
         </p>
         <ul class="space-y-3 text-sm text-ink-soft">
           <li class="flex items-center gap-2">
             <span class="w-1.5 h-1.5 bg-brand rounded-full"></span>
-            Comparação lado a lado de versões em PT, EN, ES e Latim.
+            {{ i18n.t('about.tool.bullet1') }}
           </li>
           <li class="flex items-center gap-2">
             <span class="w-1.5 h-1.5 bg-brand rounded-full"></span>
-            Interface minimalista focada na leitura profunda.
+            {{ i18n.t('about.tool.bullet2') }}
           </li>
           <li class="flex items-center gap-2">
             <span class="w-1.5 h-1.5 bg-brand rounded-full"></span>
-            Privacidade total: processamento local e sem rastreamento.
+            {{ i18n.t('about.tool.bullet3') }}
           </li>
         </ul>
       </div>
@@ -50,11 +50,11 @@
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
             </svg>
           </div>
-          <h3 class="text-xl font-bold">O Desenvolvedor</h3>
+          <h3 class="text-xl font-bold">{{ i18n.t('about.dev.title') }}</h3>
         </div>
 
         <p class="text-brand-ink-soft leading-relaxed mb-6 relative z-10">
-          Olá, sou <strong>Diogo Lara</strong>. Sou um desenvolvedor apaixonado por transformar lógica complexa em interfaces fluidas e performáticas.
+          {{ i18n.t('about.dev.introBefore') }}<strong>Diogo Lara</strong>{{ i18n.t('about.dev.introAfter') }}
         </p>
 
         <div class="space-y-4 relative z-10">
@@ -62,19 +62,19 @@
             <div class="mt-1">
               <svg class="w-5 h-5 text-brand-ink-muted" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
             </div>
-            <p class="text-sm text-brand-ink-soft">Desenvolvedor web em ecossistemas modernos como Angular e Tailwind CSS.</p>
+            <p class="text-sm text-brand-ink-soft">{{ i18n.t('about.dev.point1') }}</p>
           </div>
           <div class="flex items-start gap-3">
             <div class="mt-1">
               <svg class="w-5 h-5 text-brand-ink-muted" fill="currentColor" viewBox="0 0 20 20"><path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"></path></svg>
             </div>
-            <p class="text-sm text-brand-ink-soft">Focado na criação de ferramentas que agreguem valor real às pessoas.</p>
+            <p class="text-sm text-brand-ink-soft">{{ i18n.t('about.dev.point2') }}</p>
           </div>
         </div>
 
         <div class="mt-8 pt-6 border-t border-brand-ink-muted relative z-10">
           <a href="https://diogolara.dev" target="_blank" class="inline-flex items-center text-xs font-bold tracking-widest uppercase hover:text-brand-ink-soft transition-colors">
-            Saiba mais sobre mim
+            {{ i18n.t('about.dev.link') }}
             <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
           </a>
         </div>

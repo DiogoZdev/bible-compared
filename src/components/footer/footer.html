@@ -4,32 +4,32 @@
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
       <div>
         <h3 class="text-xl font-bold text-ink tracking-tight">
-          Bíblia<span class="font-light text-ink-soft">Comparativa</span>
+          {{ i18n.t('brand.primary') }} <span class="font-light text-ink-soft">{{ i18n.t('brand.secondary') }}</span>
         </h3>
         <p class="mt-2 text-ink-soft max-w-sm leading-relaxed">
-          Uma ferramenta minimalista para o estudo profundo das Escrituras, permitindo a comparação direta entre diferentes traduções e idiomas.
+          {{ i18n.t('footer.description') }}
         </p>
       </div>
 
       <div class="flex flex-col md:items-end">
         <h4 class="text-sm font-semibold text-ink uppercase tracking-wider mb-3">
-          Sua Privacidade
+          {{ i18n.t('footer.privacy.title') }}
         </h4>
         <ul class="text-ink-soft text-sm space-y-2 md:text-right">
           <li class="flex items-center md:justify-end gap-2">
-            <span>Privacidade total: não coletamos dados</span>
+            <span>{{ i18n.t('footer.privacy.noData') }}</span>
             <svg class="w-4 h-4 text-positive" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
             </svg>
           </li>
           <li class="flex items-center md:justify-end gap-2">
-            <span>Processamento local no navegador</span>
+            <span>{{ i18n.t('footer.privacy.local') }}</span>
             <svg class="w-4 h-4 text-positive" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
             </svg>
           </li>
           <li class="text-xs italic text-ink-muted pt-1">
-            Nenhum cookie de rastreamento é utilizado.
+            {{ i18n.t('footer.privacy.noCookies') }}
           </li>
         </ul>
       </div>
@@ -37,18 +37,18 @@
 
     <div class="border-t border-line pt-6 flex flex-col md:flex-row justify-between items-center gap-4">
       <div class="text-ink-muted text-xs text-center md:text-left">
-        <p>&copy; 2026 Bíblia Comparativa. Desenvolvido para a comunidade.</p>
+        <p>&copy; 2026 {{ i18n.t('footer.copyright') }}</p>
       </div>
 
       <div class="flex items-center gap-4">
         <span class="text-ink-muted text-sm font-serif italic">Soli Deo Gloria</span>
         <div class="h-4 w-px bg-line"></div>
         <a href="/" class="text-ink-soft hover:text-brand text-xs transition-colors">
-          Início
+          {{ i18n.t('nav.home') }}
         </a>
         <div class="h-4 w-px bg-line"></div>
         <a href="/about" class="text-ink-soft hover:text-brand text-xs transition-colors">
-          Sobre o Projeto
+          {{ i18n.t('nav.about') }}
         </a>
       </div>
     </div>

@@ -1,17 +1,29 @@
-import { ChangeDetectorRef, Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  HostListener,
+  Input,
+  OnInit,
+  inject,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { ITranslation } from '../../interfaces/translation'
 import { BibleService } from '../../services/bible.service';
-import { BOOK_OPT, BOOKS } from '../../constants/books'
+import { LanguageService } from '../../services/language.service';
+import { BOOK_OPT, BOOKS, IBook } from '../../constants/books'
 import { ThemeSelector } from '../theme-selector/theme-selector';
+import { LanguageSelector } from '../language-selector/language-selector';
 
 @Component({
   selector: 'Header',
-  imports: [ThemeSelector],
+  imports: [ThemeSelector, LanguageSelector],
   templateUrl: './header.html',
   changeDetection: ChangeDetectionStrategy.Eager,
-  host: { 'class': 'block sticky top-0 z-50' },
+  host: { 'class': 'block md:sticky md:top-0 z-50' },
 })
 export class Header implements OnInit {
+  protected readonly i18n = inject(LanguageService);
+
   constructor(
     private service: BibleService,
     private cdr: ChangeDetectorRef,
@@ -23,6 +35,30 @@ export class Header implements OnInit {
   chapters: Array<number> = [];
   selectedVersionLeft = '';
   selectedVersionRight = '';
+  menuOpen = false;
+
+  @HostListener('document:click')
+  onDocumentClick() {
+    this.closeMenu();
+  }
+
+  @HostListener('document:keydown.escape')
+  onEscape() {
+    this.closeMenu();
+  }
+
+  toggleMenu(event: MouseEvent) {
+    event.stopPropagation();
+    this.menuOpen = !this.menuOpen;
+  }
+
+  closeMenu() {
+    this.menuOpen = false;
+  }
+
+  bookName(book: IBook) {
+    return this.i18n.language() === 'pt' ? book.name : book.nameEn;
+  }
 
   async ngOnInit() {
     this.service.getTranslations.subscribe((e) => {
@@ -65,9 +101,5 @@ export class Header implements OnInit {
   setVersionRight(v: string) {
     this.selectedVersionRight = v;
     this.service.setVersionRight(v)
-  }
-
-  loadDiff() {
-    this.service.buildUrls();
   }
 }
