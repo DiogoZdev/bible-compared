@@ -33,6 +33,8 @@ export class Header implements OnInit {
   versions: ITranslation[] = [];
   books = BOOKS;
   chapters: Array<number> = [];
+  selectedBook = 'GEN';
+  selectedChapter = 1;
   selectedVersionLeft = '';
   selectedVersionRight = '';
   menuOpen = false;
@@ -61,6 +63,9 @@ export class Header implements OnInit {
   }
 
   async ngOnInit() {
+    this.selectedBook = this.service.selectedBook;
+    this.selectedChapter = this.service.selectedChapter;
+
     this.service.getTranslations.subscribe((e) => {
       this.versions = e;
       this.selectedVersionLeft = this.service.selectedVersionLeft;
@@ -73,11 +78,13 @@ export class Header implements OnInit {
       this.cdr.detectChanges();
     });
 
-    this.setChaptersByBook('GEN');
+    this.setChaptersByBook(this.selectedBook as BOOK_OPT);
     this.service.loadTranslations();
   }
 
   setBook(acr: string) {
+    this.selectedBook = acr;
+    this.selectedChapter = 1;
     this.service.setBook(acr as BOOK_OPT);
 
     this.setChaptersByBook(acr as BOOK_OPT)
@@ -90,7 +97,11 @@ export class Header implements OnInit {
   }
 
   setChapter(chapter: string) {
-    this.service.setChapter(chapter);
+    const parsed = Number(chapter);
+    if (!Number.isFinite(parsed) || parsed < 1) return;
+
+    this.selectedChapter = parsed;
+    this.service.setChapter(parsed);
   }
 
   setVersionLeft(v: string) {

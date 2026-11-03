@@ -84,7 +84,7 @@
               (change)="setBook(bookSelect.value)"
             >
               @for (book of books; track book.acr) {
-                <option [value]="book.acr">{{ bookName(book) }}</option>
+                <option [value]="book.acr" [selected]="book.acr === selectedBook">{{ bookName(book) }}</option>
               }
             </select>
 
@@ -95,7 +95,7 @@
               (change)="setChapter(chapterSelect.value)"
               class="h-9 bg-transparent font-bold text-brand text-xs focus:outline-none cursor-pointer text-center px-2 min-w-[3rem]">
               @for (c of chapters; track c) {
-                <option [value]="c">{{c}}</option>
+                <option [value]="c" [selected]="c === selectedChapter">{{c}}</option>
               }
             </select>
           </div>
