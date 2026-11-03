@@ -6,6 +6,8 @@ import { replacer } from "../utils/replacer";
 import { IChapterResponse } from "../interfaces/external-chapter";
 import { ChapterMapper } from "../utils/chapter.mapper";
 
+const DEFAULT_TRANSLATION = 'deu_elbbk';
+
 @Injectable({ providedIn: 'root' })
 export class BibleService {
 
@@ -25,6 +27,14 @@ export class BibleService {
 
   private urls = new BehaviorSubject<string[]>([]);
   getUrls = this.urls.asObservable();
+
+  get selectedVersionLeft() {
+    return this.versionLeft;
+  }
+
+  get selectedVersionRight() {
+    return this.versionRight;
+  }
 
   async loadTranslations() {
     const res = await fetch(PATHS.TRANSLATIONS)
@@ -46,29 +56,52 @@ export class BibleService {
       p.name.includes('KJV')
     );
 
+    if (filtered.length > 0) {
+      if (!this.versionLeft) this.versionLeft = filtered[0].id;
+      if (!this.versionRight) this.versionRight = (filtered[1] ?? filtered[0]).id;
+    }
+
     this.translations.next(filtered)
+
+    // Load the initially selected chapter/versions as soon as they are known,
+    // so the reader does not need to press the search button.
+    this.buildUrls();
   }
 
+  /** Selects a book, resets the chapter to 1 and loads it immediately. */
   setBook(acr: string) {
     this.book.next(acr);
+    this.selectedChapter = 1;
+    this.buildUrls();
   }
 
   setChapters(c: Array<number>) {
     this.chapters.next(c);
   }
 
+  /** Selects a chapter and loads it immediately, no search button required. */
+  setChapter(chapter: number | string) {
+    const parsed = Number(chapter);
+    if (!Number.isFinite(parsed) || parsed < 1) return;
+
+    this.selectedChapter = parsed;
+    this.buildUrls();
+  }
+
   setVersionLeft(v: string) {
     this.versionLeft = v;
+    this.buildUrls();
   }
 
   setVersionRight(v: string) {
     this.versionRight = v;
+    this.buildUrls();
   }
 
   buildUrls() {
     const chapters = [
-      replacer(PATHS.CHAPTER, this.versionLeft || 'deu_elbbk', this.book.value, String(this.selectedChapter)),
-      replacer(PATHS.CHAPTER, this.versionRight || 'deu_elbbk', this.book.value, String(this.selectedChapter))
+      replacer(PATHS.CHAPTER, this.versionLeft || DEFAULT_TRANSLATION, this.book.value, String(this.selectedChapter)),
+      replacer(PATHS.CHAPTER, this.versionRight || DEFAULT_TRANSLATION, this.book.value, String(this.selectedChapter))
     ]
 
     this.urls.next(chapters);

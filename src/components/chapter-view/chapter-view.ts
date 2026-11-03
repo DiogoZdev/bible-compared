@@ -23,6 +23,8 @@ export class ChapterView implements OnInit {
     text: "No princípio ..."
   }]
 
+  private requestId = 0;
+
   ngOnInit() {
     this.service.getUrls.subscribe(e => {
       let url = '';
@@ -54,11 +56,26 @@ export class ChapterView implements OnInit {
 
 
   async loadContent(url: string) {
-    const res = await this.service.fetchChapter(url);
+    if (!url) return;
 
-    this.versionTitle = res.versionTitle || 'Erro ao carregar';
-    this.languageCode = res.languageCode || 'ERR';
-    this.verses = res.verses || [];
+    const requestId = ++this.requestId;
+
+    try {
+      const res = await this.service.fetchChapter(url);
+
+      // Ignore responses that arrived after a newer chapter request.
+      if (requestId !== this.requestId) return;
+
+      this.versionTitle = res.versionTitle || 'Erro ao carregar';
+      this.languageCode = res.languageCode || 'ERR';
+      this.verses = res.verses || [];
+    } catch {
+      if (requestId !== this.requestId) return;
+
+      this.versionTitle = 'Erro ao carregar';
+      this.languageCode = 'ERR';
+      this.verses = [];
+    }
 
     this.cdr.detectChanges();
   }

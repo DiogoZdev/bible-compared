@@ -5,7 +5,21 @@
   <title>BibleCompared</title>
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5edd8">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem('bible-compared-theme');
+        var systemDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var dark = stored === 'dark' || ((stored === 'system' || !stored) && systemDark);
+        if (dark) document.documentElement.classList.add('dark');
+        document.documentElement.style.colorScheme = dark ? 'dark' : 'light';
+      } catch (error) {
+        // Ignore storage/matchMedia failures and fall back to the light theme.
+      }
+    })();
+  </script>
 </head>
 <body>
   <app-root></app-root>
